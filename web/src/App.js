@@ -2,7 +2,10 @@ import React from 'react';
 
 function App() {
   return (
-    <h1>Hello World</h1>
+    <>
+      <h1>contador: 0</h1>
+      <button>Incrementar</button>
+    </>
   );
 }
 
