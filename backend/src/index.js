@@ -2,6 +2,7 @@ const express = require('express');
 const routes = require('./routes');
 const mongoose = require('mongoose');
 const {MONGO_USER, MONGO_DB, MONGO_PASS} = require('../.env');
+const cors = require('cors');
 
 const app = express();
 
@@ -11,6 +12,7 @@ mongoose.connect(`mongodb+srv://${MONGO_USER}:${MONGO_PASS}@project01-zzohc.mong
     useCreateIndex: true
 });
 
+app.use(cors());
 app.use(express.json());
 app.use(routes);
 
