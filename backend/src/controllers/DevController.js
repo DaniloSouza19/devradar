@@ -33,10 +33,10 @@ module.exports = {
                 avatar_url,
                 bio,
                 techs: techsArray,
-                location
+                location,
             });
         }
-
+        const teste = { proximo_passo : "#GoStack #bootcamp" }
         return res.json(dev);
     },
 
