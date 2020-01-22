@@ -3,16 +3,17 @@ const socketio = require('socket.io');
 const parseStringAsArray = require('./utils/parseStringAsArray');
 const calculateDistance = require('./utils/calculateDistance');
 
-const conections = []
+const connections = []
+let io;
 
 exports.setupWebsocket = (server) => {
-    const io = socketio(server);
+    io = socketio(server);
 
     io.on('connection', socket => {
         console.log(socket.id);
         const { latidude, longitude, techs } = socket.handshake.query;
 
-        conections.push({
+        connections.push({
             id: socket.id,
             coordinates: {
                 latidude: Number(latidude),
@@ -25,8 +26,15 @@ exports.setupWebsocket = (server) => {
 };
 
 exports.findConnections = (coordinates, techs) => {
-    return conections.filter(connection => {
+    return connections.filter(connection => {
         return calculateDistance(coordinates, connection.coordinates) < 10
          && connection.techs.some(item => techs.includes(item))
     })
 }
+
+
+exports.sendMessage = (to, message, data) => {
+    to.forEach(connection => {
+        io.to(connection.id).emit(message, data);
+    }); 
+};

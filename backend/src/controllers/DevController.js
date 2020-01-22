@@ -1,6 +1,8 @@
 const axios = require('axios');
 const Dev = require('../models/Dev');
 const parseStringAsArray = require('../utils/parseStringAsArray');
+const {findConnections, sendMessage} = require('../websocket');
+
 
 module.exports = {
 
@@ -35,8 +37,15 @@ module.exports = {
                 techs: techsArray,
                 location,
             });
+
+            const sendSocketMessageTo = findConnections(
+                {latitude, longitude},
+                techsArray
+            )
+
+            sendMessage(sendSocketMessageTo, 'new-dev', dev);
         }
-        const teste = { proximo_passo : "#GoStack #bootcamp" }
+
         return res.json(dev);
     },
 
